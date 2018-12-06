@@ -1,0 +1,169 @@
+<!DOCTYPE = <!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>GIPHY App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+
+    <style>
+        .offImg{
+            margin-top: -8px;
+            width: 320px;
+            height: auto;
+            margin-bottom: 8px;
+        }
+        .onImg{
+            margin-bottom: 8px;
+            width: 355px;
+            height: auto;
+            margin-top: -8px;
+        }
+        button{
+            border-radius: 3px;
+            margin: 5px;
+            margin-top: 8px;
+            background-color:goldenrod;
+            font-weight: 660;
+            border-color: brown;
+            border-style: solid;
+            border-width: 2px;
+            padding-top: 2px 5px 2px 5px;
+        }
+        #addBtn{
+            margin-top: 8px;
+            border-radius: 3px;
+            background-color:goldenrod;
+            font-weight: 660;
+            border-color: brown;
+            border-style: solid;
+            border-width: 2px;
+            padding-top: 2px 5px 2px 5px;
+        }
+        #inputField{
+            width: 250px;
+        }
+        body{
+            background-color: black;
+        }
+        .container{
+            background-color: rgb(90, 90, 90);
+        }
+        p{
+            margin-top: 5px;
+            color:white;
+        }
+        #addText{
+            margin-bottom: -6px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-9" id="btns"></div>
+            <div class="col-3">
+                <form id="inputForm">
+                    <label for="button-input">
+                        <p id="addText">Add a Button:</p>
+                    </label>
+                    <input type="text" id="inputField"><br>
+                    <input id="addBtn" type="submit" value="Add">
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12" id="gifs"></div>
+        </div>
+    </div>
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        var btnNames = ["aragorn", "legolas", "gimli", "one ring", "gollum", "gamgee", "minas tirith", "nazgul", "gandalf", "sauron"];
+
+        $(document).ready(function () {
+            //start by listing pre-determined buttons
+            list();
+
+            //set up new buttons with names for the 
+            function list() {
+                $("#btns").empty();
+                for (let i = 0; i < btnNames.length; i++) {
+                    var newBtn = $("<button>");
+                    newBtn.addClass("genBtn");
+                    newBtn.attr("data-word", btnNames[i]);
+                    newBtn.text(btnNames[i]);
+                    $("#btns").append(newBtn);
+                }
+            }
+
+            function listGifs() {
+                var s = "https://api.giphy.com/v1/gifs/search?api_key=oSJXdfLvlm550Sv99iiMD2bDp0UYTeHY&q=" + $(this).attr("data-word") + "&limit=12&offset=0&rating=PG&lang=en";
+                $.ajax({
+                    method: "GET",
+                    url: s
+                }).then(function (data) {
+                    var dat = data.data;
+                    $("#gifs").empty();
+                    for (let miniRowI = 0; miniRowI < 4; miniRowI++) {
+                        var curRow = $("<div>");
+                        curRow.addClass("row");
+                        for (let miniColI = 0; miniColI < 3; miniColI++) {
+                            var curCol = $("<div>");
+                            curCol.addClass("col-4");
+                            var locInArr = dat[miniRowI * 3 + miniColI];
+                            curCol.html("<p><b>Rating: </b>" + dat[miniRowI * 3 + miniColI].rating.toUpperCase() + "</p>");
+                            var actualImg = $("<img>");
+                            actualImg.addClass("offImg");
+                            actualImg.attr("src", locInArr.images.original_still.url);
+                            actualImg.attr("data-off-url", locInArr.images.original_still.url);
+                            actualImg.attr("data-on-url", dat[miniRowI * 3 + miniColI].images.original.url);
+                            curCol.append(actualImg);
+                            curRow.append(curCol);
+                        }
+                        $("#gifs").append(curRow);
+                    }
+                });
+            }
+
+            function turnOn() {
+                $(".onImg").attr("src", $(".onImg").attr("data-off-url"));
+                $(".onImg").addClass("offImg");
+                $(".onImg").removeClass("onImg");
+
+                $(this).attr("src", $(this).attr("data-on-url"));
+                $(this).addClass("onImg");
+                $(this).removeClass("offImg");
+            }
+
+            function turnOff() {
+                $(this).attr("src", $(this).attr("data-off-url"));
+                $(this).removeClass("onImg");
+                $(this).addClass("offImg");
+            }
+
+            $("#addBtn").on("click", function (event) {
+                event.preventDefault();
+                var searchTerm = $("#inputField").val().trim().toLowerCase();
+                document.getElementById("inputForm").reset();
+                if (searchTerm === "" || btnNames.includes(searchTerm))
+                    return; //get your empties and repeats 
+                btnNames.push(searchTerm);
+                list();
+            });
+
+            $(document).on("click", ".genBtn", listGifs);
+            $(document).on("click", ".offImg", turnOn);
+            $(document).on("click", ".onImg", turnOff);
+        });   
+    </script>
+</body>
+
+</html>
