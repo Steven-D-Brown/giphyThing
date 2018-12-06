@@ -2,9 +2,13 @@
 <html>
 
 <head>
+    <!--
+    font-family: 'Source Sans Pro', sans-serif;
+    -->
     <meta charset="utf-8"/>
     <title>GIPHY App</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Merriweather+Sans|Source+Sans+Pro" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
         crossorigin="anonymous">
 
@@ -31,6 +35,8 @@
             border-style: solid;
             border-width: 2px;
             padding-top: 2px 5px 2px 5px;
+            font-family: 'Merriweather Sans', sans-serif;
+            font-size: 1.1em;
         }
         #addBtn{
             margin-top: 8px;
@@ -41,9 +47,11 @@
             border-style: solid;
             border-width: 2px;
             padding-top: 2px 5px 2px 5px;
+            font-family: 'Merriweather Sans', sans-serif;
         }
         #inputField{
             width: 250px;
+            font-family: 'Source Sans Pro', sans-serif;
         }
         body{
             background-color: black;
@@ -54,9 +62,11 @@
         p{
             margin-top: 5px;
             color:white;
+            font-family: 'Source Sans Pro', sans-serif;
         }
         #addText{
             margin-bottom: -6px;
+            font-family: 'Source Sans Pro', sans-serif;
         }
     </style>
 
@@ -118,7 +128,7 @@
                             var curCol = $("<div>");
                             curCol.addClass("col-4");
                             var locInArr = dat[miniRowI * 3 + miniColI];
-                            curCol.html("<p><b>Rating: </b>" + dat[miniRowI * 3 + miniColI].rating.toUpperCase() + "</p>");
+                            curCol.html("<p><b>Rating</b>: " + dat[miniRowI * 3 + miniColI].rating.toUpperCase() + "</p>");
                             var actualImg = $("<img>");
                             actualImg.addClass("offImg");
                             actualImg.attr("src", locInArr.images.original_still.url);
