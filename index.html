@@ -37,6 +37,7 @@
             padding-top: 2px 5px 2px 5px;
             font-family: 'Merriweather Sans', sans-serif;
             font-size: 1.1em;
+            box-shadow: 2px 2px rgba(255, 166, 0, 0.21);
         }
         #addBtn{
             margin-top: 8px;
@@ -48,6 +49,7 @@
             border-width: 2px;
             padding-top: 2px 5px 2px 5px;
             font-family: 'Merriweather Sans', sans-serif;
+            box-shadow: 2px 2px rgba(255, 166, 0, 0.21);
         }
         #inputField{
             width: 250px;
@@ -63,6 +65,7 @@
             margin-top: 5px;
             color:white;
             font-family: 'Source Sans Pro', sans-serif;
+            text-shadow: 1px 1px rgba(0, 0, 0, 0.863);
         }
         #addText{
             margin-bottom: -6px;
@@ -142,7 +145,7 @@
                 });
             }
 
-            function turnOn() {
+            function turnOn() {//turn everything off and turn the clicked thing on
                 $(".onImg").attr("src", $(".onImg").attr("data-off-url"));
                 $(".onImg").addClass("offImg");
                 $(".onImg").removeClass("onImg");
@@ -152,7 +155,7 @@
                 $(this).removeClass("offImg");
             }
 
-            function turnOff() {
+            function turnOff() { //turn the on thing off
                 $(this).attr("src", $(this).attr("data-off-url"));
                 $(this).removeClass("onImg");
                 $(this).addClass("offImg");
@@ -163,7 +166,7 @@
                 var searchTerm = $("#inputField").val().trim().toLowerCase();
                 document.getElementById("inputForm").reset();
                 if (searchTerm === "" || btnNames.includes(searchTerm))
-                    return; //get your empties and repeats 
+                    return; //get your empties and repeats out of here
                 btnNames.push(searchTerm);
                 list();
             });
